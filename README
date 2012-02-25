@@ -1,0 +1,43 @@
+SDLx::Betweener version 0.01
+============================
+
+Will replace SDLx-Tween because it is better.
+
+STATUS
+
+Alpha: only simplest tween and starfield work.
+
+TODO
+
+* start/stop actions on tween with destroyed timelines crash, should
+  give error message
+* float setters should check and convert value if int by accident
+* direct setter value can be upgraded to string and you will never
+  see any tween updates, peek and warn if SV nature changes?
+* add set_duration
+* template specialization on proxies not method overloading
+
+INSTALLATION
+
+To install this module type the following:
+
+   perl Makefile.PL
+   make
+   make test
+   make install
+
+DEPENDENCIES
+
+This module requires these other modules and libraries:
+
+  SDL
+
+COPYRIGHT AND LICENCE
+
+Copyright (C) 2012 by Ran Eilam
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.10.1 or,
+at your option, any later version of Perl 5 you may have available.
+
+
