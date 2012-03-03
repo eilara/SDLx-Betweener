@@ -15,8 +15,11 @@ Timeline::Timeline() : tickers() {
 }
 
 Timeline::~Timeline() {
-    for (set<ITicker*>::iterator it = tickers.begin(); it != tickers.end(); it++)
-        (*it)->stop();
+     for (set<ITicker*>::iterator it = tickers.begin(); it != tickers.end();) {
+        set<ITicker*>::iterator it2 = it;
+        it++;
+        (*it2)->stop();
+    }
 }
 
 void Timeline::register_ticker(ITicker *ticker) {
@@ -28,8 +31,11 @@ void Timeline::unregister_ticker(ITicker *ticker) {
 }
 
 void Timeline::tick(Uint32 now) {
-    for (set<ITicker*>::iterator it = tickers.begin(); it != tickers.end(); it++)
-        (*it)->tick(now);
+    for (set<ITicker*>::iterator it = tickers.begin(); it != tickers.end();) {
+        set<ITicker*>::iterator it2 = it;
+        it++;
+        (*it2)->tick(now);
+    }
 }
 
 Tween *Timeline::build_int_tween(IProxy<int,1> *proxy, ICompleter *completer,

@@ -63,6 +63,13 @@ Vector<float,DIM> operator* (const Vector<float,DIM>& t, float k) {
     return res;
 }
 
+template<int DIM>
+Vector<int,DIM> operator* (const Vector<float,DIM>& t, int k) {
+    Vector<int,DIM> res;
+    for (unsigned i=0; i<DIM; ++i) { res[i] = (int) round(t[i] * (float) k); }
+    return res;
+}
+
 template<typename T,int DIM>
 Vector<T,DIM> operator/ (const Vector<T,DIM>& t, float k) {
     Vector<T,DIM> res;
@@ -78,5 +85,14 @@ std::ostream& operator<< (std::ostream& os, const Vector<T,DIM>& t)
     os << "}";
     return os;
 }
+
+template<typename T,int DIM>
+float distance (const Vector<T,DIM>& lhs, const Vector<T,DIM>& rhs) {
+    Vector<T,DIM> diff = lhs - rhs;
+    float d = 0;
+    for (unsigned i=0; i<DIM; ++i) d += diff[i] * diff[i];
+    return sqrt(d);
+}
+
 
 #endif

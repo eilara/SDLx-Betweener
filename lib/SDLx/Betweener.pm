@@ -11,16 +11,24 @@ our $VERSION = '0.01';
 require XSLoader;
 XSLoader::load('SDLx::Betweener', $VERSION);
 
+# tween types
+
 use constant { TWEEN_INT => 0, TWEEN_FLOAT => 1, TWEEN_PATH => 2 };
 my @Tween_Lookup = qw(_tween_int _tween_float _tween_path);
+
+# proxy types
 
 use constant { DIRECT_PROXY => 1, CALLBACK_PROXY => 2, METHOD_PROXY => 3 };
 my %Proxy_Lookup = do { my $i = 1; map { $_ => $i++ } qw(ARRAY CODE HASH)};
 
+# path types
+
 use constant { LINEAR_PATH => 0, CIRCULAR_PATH => 1 };
 my %Path_Lookup = do { my $i = 0; map { $_ => $i++ } qw(
-    linear circular
+    linear circular polyline
 )};
+
+# ease types
 
 my @Ease_Names = qw(
     linear
@@ -147,3 +155,10 @@ sub tween {
 }
 
 1;
+
+__END__
+
+path => [
+    {linear => {from=>[1,2], to=>[3,4]}}
+    {linear => {from=>[1,2], to=>[3,4]}}
+],

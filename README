@@ -16,6 +16,7 @@ TODO
   see any tween updates, peek and warn if SV nature changes?
 * add set_duration
 * template specialization on proxies not method overloading
+* face angle feature for path tweens
 
 INSTALLATION
 

@@ -22,7 +22,7 @@ class PerlDirectProxy : public IProxy<T,DIM>  {
         ~PerlDirectProxy() {
         }
         void update(Vector<int,1>& value) {
-            SvIV_set((SV*) target, value[0]);
+            SvIV_set(target, value[0]);
         }
         void update(Vector<float,1>& value) {
             SvNV_set(target, value[0]);
