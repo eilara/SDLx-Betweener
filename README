@@ -53,6 +53,7 @@ TODO
 * add set_duration
 * template specialization on proxies not method overloading
 * face angle feature for path tweens
+* SDLx rect proxy
 
 INSTALLATION
 

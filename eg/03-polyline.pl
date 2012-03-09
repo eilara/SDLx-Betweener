@@ -14,9 +14,8 @@ use SDLx::Betweener;
 # onions are spread equally spaced across duration
 # distance in pixels between onions must be integer on spawn
 # or onions will appear to be shaking
-# distance = total_path_length / ($ONION_COUNT - 1)
 
-my $ONION_COUNT    = 22;
+my $ONION_COUNT    = 302;
 my $ONIONS_PER_SEC = 4;
 my $INTER_WAVE_T   = 1000 / $ONIONS_PER_SEC;
 my $DURATION       = ($ONION_COUNT - 1) * $INTER_WAVE_T;
@@ -36,9 +35,16 @@ my @onions = map {
     my $rect  = SDLx::Rect->new(-32,-32, 32, 32);
     my $tween = $tweener->tween_path(
         t       => $DURATION,
-        range   => [[-32,0],[640,0]],
         on      => sub { $rect->topleft($_[0]->[1], $_[0]->[0]) },
         forever => 1,
+        path    => [polyline => [
+            [-32, 0], [608, 0], [608, 32], [0, 32],
+            (map {
+                my $r = $_*2*32;
+                ([0, $r], [608, $r], [608, $r+32], [0, $r+32]),
+            } 1..6),
+            [0, 448], [640, 448],
+        ]],
     );
     [$rect, $tween];
 } 1..$ONION_COUNT;
@@ -53,6 +59,7 @@ $spawner->start(0);
 $app->run;
 
 sub spawn_creep {
+# TODO handle wave skipping
     my $wave = shift;
     my $tween = $onions[$wave - 1]->[1];
     $tween->start($wave * $INTER_WAVE_T);
