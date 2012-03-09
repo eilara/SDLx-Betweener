@@ -87,12 +87,18 @@ std::ostream& operator<< (std::ostream& os, const Vector<T,DIM>& t)
 }
 
 template<typename T,int DIM>
-float distance (const Vector<T,DIM>& lhs, const Vector<T,DIM>& rhs) {
+float distance(const Vector<T,DIM>& lhs, const Vector<T,DIM>& rhs) {
     Vector<T,DIM> diff = lhs - rhs;
     float d = 0;
     for (unsigned i=0; i<DIM; ++i) d += diff[i] * diff[i];
     return sqrt(d);
 }
 
+template<typename T, int DIM>
+Vector<T,DIM> mult_floor(const Vector<T,DIM>& t, float k) {
+    Vector<T,DIM> res;
+    for (unsigned i=0; i<DIM; ++i) { res[i] = (int) (k * (float) t[i]); }
+    return res;
+}
 
 #endif

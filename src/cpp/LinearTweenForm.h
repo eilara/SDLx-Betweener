@@ -3,12 +3,11 @@
 #define LINEARTWEENFORM_H
 
 #include <stdlib.h>
-#include <iostream>
 #include "Vector.h"
 #include "IProxy.h"
 #include "ITweenForm.h"
 
-template<typename T,int DIM>
+template<typename T,int DIM,bool FLOORED>
 class LinearTweenForm : public ITweenForm {
 
     public:
@@ -45,7 +44,12 @@ class LinearTweenForm : public ITweenForm {
 
     private:
 
-        void compute_value(float t) { value = from + diff * t; }
+        void compute_value(float t) {
+            value = from + (FLOORED?
+                mult_floor<T,DIM>(diff ,t):
+                (diff * t)
+            );
+        }
 
         void store_last_value() { last_value = value; }
 

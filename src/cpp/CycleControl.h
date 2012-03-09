@@ -10,6 +10,7 @@ class CycleControl {
         void cycle_complete();
         bool is_animation_complete();
         bool is_reversed();
+        bool is_bouncing();
     private:
         bool forever;
         int  repeat;

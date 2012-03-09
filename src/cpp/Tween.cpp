@@ -1,6 +1,5 @@
 
 #include <stdlib.h>
-#include <iostream>
 #include "Tween.h"
 #include "easing.h"
 
@@ -48,6 +47,10 @@ void Tween::resume(Uint32 now) {
     Ticker::resume(now);
     total_pause_time += now - pause_start_time;
     pause_start_time = 0;
+}
+
+Uint32 Tween::get_cycle_start_time() {
+    return cycle_start_time;
 }
 
 void Tween::on_tick(Uint32 now) {

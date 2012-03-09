@@ -28,5 +28,9 @@ bool CycleControl::is_reversed() {
    return _is_reversed; 
 }
 
+bool CycleControl::is_bouncing() {
+   return bounce; 
+}
+
 
 

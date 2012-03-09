@@ -3,9 +3,45 @@ SDLx::Betweener version 0.01
 
 Will replace SDLx-Tween because it is better.
 
+
 STATUS
 
 Alpha: only simplest tween and starfield work.
+
+
+DESIGN
+
+Timeline has a std::set of Tween objects. It broadcasts tick(Uint32 now)
+to them.
+
+The Tween tick method normalizes the time given using now/tween_duration,
+so that it is between 0 and 1.
+
+Then the time is passed through the easing function, which maps it to some 
+eased time value, useful for non-linear speed animations.
+
+The tween then calls tick(Uint32 now) on its ITweenForm. The tween form
+translates the eased time into some domain value and pushes it into the
+tween target using the tween proxy.
+
+LinearTweenForm interpolates between 2 values ("from" and "to") in a linear
+path. The values tweened are Vector<typename T, int DIM>.
+
+PathTweenForm is more general. It lets you tween a Vector<int,2> along a 2D
+path, given in construction. LinearPath makes it behave like a LinearTweenForm.
+CircularPath tweens along a circle or a pie slice from it. PolylinePath 
+tweens along a set of linear segments.
+
+A tween form uses an IProxy for pushing the value into Perl. There are proxies
+for setting Perl values (scalar for 1D tween, array ref for 2D) directly,
+for calling a callback with the tweened value, and for calling a method.
+
+A uses a CycleControl object for controlling cycle repeat and cycle reverse. 
+A tween can be made to run forever, to reverse on cycle completion (bounce),
+to start reversed, and to repeat N times.
+
+Tween start/stop registers/unregisters the tween on a timeline.
+
 
 TODO
 

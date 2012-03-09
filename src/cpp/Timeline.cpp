@@ -1,6 +1,5 @@
 
 #include <stdlib.h>
-#include <iostream>
 #include <set>
 #include "Timeline.h"
 #include "LinearTweenForm.h"
@@ -8,8 +7,9 @@
 
 using namespace std;
 
-typedef LinearTweenForm<int  ,1> LinearIntForm;
-typedef LinearTweenForm<float,1> LinearFloatForm;
+typedef LinearTweenForm<int  ,1,false> LinearIntForm;
+typedef LinearTweenForm<int  ,1,true>  LinearIntFormFloored;
+typedef LinearTweenForm<float,1,false> LinearFloatForm;
 
 Timeline::Timeline() : tickers() {
 }
@@ -41,9 +41,15 @@ void Timeline::tick(Uint32 now) {
 Tween *Timeline::build_int_tween(IProxy<int,1> *proxy, ICompleter *completer,
                                  int duration, int from, int to, int ease_type,
                                  CycleControl *control) {
-    Vector1i from_v = { {from} };                 
-    Vector1i to_v   = { {to} };                 
-    LinearIntForm *form = new LinearIntForm(proxy, from_v, to_v);
+    Vector1i from_v = { {from} };
+    Vector1i to_v   = { {to} };
+    ITweenForm *form;
+    // bouncing int tweens look smoother if rounded
+    if (control->is_bouncing()) {
+        form = new LinearIntForm(proxy, from_v, to_v);
+    } else {
+        form = new LinearIntFormFloored(proxy, from_v, to_v);
+    }
     return new Tween(this, completer, form, duration, ease_type, control);
 }
 

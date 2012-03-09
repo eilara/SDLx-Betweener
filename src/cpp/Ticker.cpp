@@ -1,6 +1,5 @@
 
 #include <stdlib.h>
-#include <iostream>
 #include "Ticker.h"
 
 using namespace std;
