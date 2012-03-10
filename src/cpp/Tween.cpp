@@ -53,6 +53,18 @@ Uint32 Tween::get_cycle_start_time() {
     return cycle_start_time;
 }
 
+Uint32 Tween::get_duration() {
+    return duration;
+}
+
+void Tween::set_duration(Uint32 new_duration, Uint32 now) {
+    float ratio      = 1.0 - (float) new_duration / (float) duration;
+    double elapsed   = now - cycle_start_time - total_pause_time;
+    duration         = new_duration;
+    cycle_start_time = cycle_start_time + total_pause_time + elapsed * ratio;
+    total_pause_time = 0;
+}
+
 void Tween::on_tick(Uint32 now) {
     bool is_complete = 0;
     Uint32 elapsed = now - cycle_start_time - total_pause_time;

@@ -19,11 +19,11 @@ class PerlMethodProxy : public IProxy<T,DIM>  {
            SV** target_sv = av_fetch(on_av, 1, 0);
            method         = strdup((char*) SvPV_nolen(*method_sv));
            // weak ref on target object
-           target         = newRV_noinc(SvRV(*target_sv));
+           target         = newRV_inc(SvRV(*target_sv));
+           sv_rvweaken(target);
         }
         ~PerlMethodProxy() {
             delete method;
-            SvRV_set(target, &PL_sv_undef);
             SvREFCNT_dec(target);
         }
         void update(Vector<int,1>& value) {

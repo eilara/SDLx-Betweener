@@ -31,8 +31,24 @@ Tween::resume(...)
         COMPUTE_NOW()
         THIS->resume(now);
 
+bool
+Tween::is_paused()
+
+bool
+Tween::is_active()
+
 Uint32
 Tween::get_cycle_start_time()
+
+Uint32
+Tween::get_duration()
+
+void
+Tween::set_duration(new_duration, ...)
+    Uint32 new_duration
+    CODE:
+        COMPUTE_NOW()
+        THIS->set_duration(new_duration, now);
 
 void
 Tween::DESTROY()

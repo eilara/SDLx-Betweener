@@ -5,7 +5,6 @@ use strict;
 use warnings;
 use FindBin qw($Bin);
 use lib ("$Bin/..", "$Bin/../lib", "$Bin/../blib/arch", "$Bin/../blib/lib");
-use SDL;
 use SDLx::App;
 use SDLx::Rect;
 use SDLx::Surface;
