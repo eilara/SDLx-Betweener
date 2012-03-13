@@ -13,8 +13,9 @@ XSLoader::load('SDLx::Betweener', $VERSION);
 
 # tween types
 
-use constant { TWEEN_INT => 0, TWEEN_FLOAT => 1, TWEEN_PATH => 2 };
-my @Tween_Lookup = qw(_tween_int _tween_float _tween_path);
+use constant { TWEEN_INT  => 0, TWEEN_FLOAT => 1, TWEEN_PATH => 2,
+               TWEEN_RGBA => 3, };
+my @Tween_Lookup = qw(_tween_int _tween_float _tween_path _tween_rgba);
 
 # proxy types
 
@@ -83,6 +84,49 @@ sub tween_float {
 sub tween_path {
     my ($self, %args) = @_;
     return $self->tween(TWEEN_PATH, %args);
+}
+
+sub tween_rgba {
+    my ($self, %args) = @_;
+    my $builder = $Tween_Lookup[TWEEN_RGBA];
+    my $on      = $args{on}                || die 'No "on" given';
+    my $t       = $args{t}                 || die 'No "t" for duration given';
+    my $proxy   = $Proxy_Lookup{ref $on}   || die "unknown proxy type: $on";
+    my $ease    = $Ease_Lookup{$args{ease} || 'linear'};
+
+    my ($from, $to);
+
+    # try to get 'from/to' from range
+    ($args{from}, $args{to}) = @{ $args{range} } if $args{range};
+    # must have "to" by now
+    $to = $args{to};
+    die 'No "to" defined' unless defined $to;
+    $from = $args{from};
+
+    unless (defined $from) {
+        # if we have no 'from' lets try to get it from the proxy
+        if ($proxy == DIRECT_PROXY) {
+            $from = $$on;
+        } elsif ($proxy == METHOD_PROXY) {
+            my $method = [keys %$on]->[0];
+            $from = [values %$on]->[0]->$method;
+        } elsif ($proxy == CALLBACK_PROXY)
+            { die 'No "from" given for callback proxy' }
+    }
+
+    $on = [%$on] if $proxy == METHOD_PROXY;
+
+    return $self->{timeline}->$builder(
+        $proxy,
+        $on,
+        $t,
+        $from, $to,
+        $ease,
+        $args{forever} || 0,
+        $args{repeat}  || 1,
+        $args{bounce}  || 0,
+        $args{reverse} || 0,
+    );
 }
 
 sub tween {

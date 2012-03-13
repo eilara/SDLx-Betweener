@@ -5,7 +5,8 @@
 #include "EXTERN.h"
 #include "perl.h"
 #include "XSUB.h"
-#include <iostream>
+#include "Types.h"
+#include "VectorTypes.h"
 #include "Vector.h"
 #include "IProxy.h"
 
@@ -21,19 +22,27 @@ class PerlDirectProxy : public IProxy<T,DIM>  {
         }
         ~PerlDirectProxy() {
         }
-        void update(Vector<int,1>& value) {
+        void update(Vector1i& value) {
             SvIV_set(target, value[0]);
         }
-        void update(Vector<float,1>& value) {
+        void update(Vector1f& value) {
             SvNV_set(target, value[0]);
         }
-        void update(Vector<int,2>& value) {
+        void update(Vector2i& value) {
             AV* arr = (AV*) target;
             SV** v1 = av_fetch(arr, 0, 0);
             SV** v2 = av_fetch(arr, 1, 0);
             SvIV_set(*v1, value[0]);
             SvIV_set(*v2, value[1]);
         }
+        void update(Vector4c& value) {
+            Uint32 color = (value[0] << 24) |
+                           (value[1] << 16) |
+                           (value[2] <<  8) |
+                            value[3];
+            SvIV_set(target, color);
+        }
+
 
      private:
         SV *target;

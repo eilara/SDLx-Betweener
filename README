@@ -6,7 +6,7 @@ Will replace SDLx-Tween because it is better.
 
 STATUS
 
-Alpha: only simplest tween and starfield work.
+Alost same features as SDLx-Tween.
 
 
 DESIGN
@@ -28,32 +28,75 @@ LinearTweenForm interpolates between 2 values ("from" and "to") in a linear
 path. The values tweened are Vector<typename T, int DIM>.
 
 PathTweenForm is more general. It lets you tween a Vector<int,2> along a 2D
-path, given in construction. LinearPath makes it behave like a LinearTweenForm.
-CircularPath tweens along a circle or a pie slice from it. PolylinePath 
-tweens along a set of linear segments.
+path, given in construction. LinearPath makes the form behave like a
+LinearTweenForm.  CircularPath tweens along a circle or a pie slice from it.
+PolylinePath tweens along a set of linear segments.
 
 A tween form uses an IProxy for pushing the value into Perl. There are proxies
 for setting Perl values (scalar for 1D tween, array ref for 2D) directly,
 for calling a callback with the tweened value, and for calling a method.
 
-A uses a CycleControl object for controlling cycle repeat and cycle reverse. 
-A tween can be made to run forever, to reverse on cycle completion (bounce),
-to start reversed, and to repeat N times.
+A tween uses a CycleControl object for controlling cycle repeat and cycle
+reverse.  A tween can be made to run forever, to reverse on cycle completion
+(bounce), to start reversed, and to repeat N times.
 
 Tween start/stop registers/unregisters the tween on a timeline.
 
 
 TODO
 
-* start/stop actions on tween with destroyed timelines crash, should
-  give error message
-* float setters should check and convert value if int by accident
-* direct setter value can be upgraded to string and you will never
-  see any tween updates, peek and warn if SV nature changes?
-* add set_duration
-* template specialization on proxies not method overloading
-* face angle feature for path tweens
-* SDLx rect proxy
+* Paths
+    - Bezier paths
+    - import bezier paths from Inkscape
+    - import polyline path waypoints from Tiled map editor 
+* Easing
+    - stepped retro tween easing
+* Tween Types
+    - rgba
+    - fade
+    - angle from/to angle + clockwise/anti
+    - groups sequential and parallel, maybe overload + and *
+    - seek behavior
+    - shake rattling tween- shakes object violently
+    - spawner, add skipped waves feature
+    - sprite animation
+    - move by not move to
+    - rotate/skew/stretch with transform matrix tween
+    - one time tick tween, like timer
+    - delay tween, there just for delaying until completion event
+* Proxy decorators    
+    - SDLx::Rect proxy for 2D paths
+    - face angle for path tweens
+    - add/remove to/from grid cell on move
+* Timeline
+    - elastic speed of time, FFW/REW, seek progress
+* API
+    - before/after tween delay
+    - perl completers
+    - allow speed instead of duration
+    - animated role keeps list of animations
+    - or maybe as a trait on a moose attribute, which makes it
+      tweenable
+* Demos
+    - theatrical demo with parallel and sequenced tweens
+    - shape tweening with lots of particls
+    - rain
+    - text typing demo
+    - add fading trails to easing demo
+* Safety
+    - should warn if start/stop tween with destroyed timeline?
+    - float setters should check for int targets and upgrade SV
+    - if you upgrade targets of direct proxy to string
+      (e.g. by Data::Dumpering it) you will never see
+      tween updates. Maybe Devel::Peek it and warn?
+* Refactor
+    - perl proxy code duplication
+    - template specialization on proxies not method overloading
+    - specialize templates for FLOORED in linear tween form
+* Performance
+    - share polyline paths
+    - pool tweens
+
 
 INSTALLATION
 
@@ -64,11 +107,15 @@ To install this module type the following:
    make test
    make install
 
+
 DEPENDENCIES
 
 This module requires these other modules and libraries:
 
+  Alien::SDL
   SDL
+  Moose
+
 
 COPYRIGHT AND LICENCE
 
