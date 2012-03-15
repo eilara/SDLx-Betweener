@@ -23,7 +23,7 @@ sub _build_tween {
         t       => 2_000,
         forever => 1,
         bounce  => 1,
-        ease    => 'linear',
+        ease    => 'p2_in_out',
     );
 }
 
@@ -50,10 +50,9 @@ my $w = 800;
 my $h = 600;
 
 my @circle_defs = (
-#    ["tween=fade from=0xFF000000 to=0xFF", 
-#        [200, 150], 0xFF0000FF,
-#        {path => 'fade', to => 0x00},
-#    ],
+    ["tween=fade from=0xFF000000 to=0xFF", 
+        fade => [200, 150], 0xFF0000FF, 0x00,
+    ],
     ["tween=rgba from=0x00FF0044 to=0x0000FFCC",
         rgba => [200, 320], 0x00FF0044, 0x0000FFCC,
     ],

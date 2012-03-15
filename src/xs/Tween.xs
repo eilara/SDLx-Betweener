@@ -41,6 +41,9 @@ Uint32
 Tween::get_cycle_start_time()
 
 Uint32
+Tween::get_total_pause_time()
+
+Uint32
 Tween::get_duration()
 
 void

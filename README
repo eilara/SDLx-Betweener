@@ -43,8 +43,38 @@ reverse.  A tween can be made to run forever, to reverse on cycle completion
 Tween start/stop registers/unregisters the tween on a timeline.
 
 
+FEATURES
+
+* Tween Types
+    - 1D int
+    - 1D float
+    - 2D path
+    - RGBA color
+    - spawner
+* Cycle Control
+    - start/stop
+    - pause/resume
+    - change tween duration while running
+    - reverse
+    - bounce
+    - forever
+    - repeat
+* Proxying Tween Values to Perl
+    - direct set scalar or scalars in an array
+    - callback
+    - method
+* Easing
+    - all of Robert Penner's easing functions
+* 2D Paths
+    - linear
+    - circular
+    - polyline
+
+ 
 TODO
 
+* Build
+    - Win32
 * Paths
     - Bezier paths
     - import bezier paths from Inkscape
@@ -52,18 +82,17 @@ TODO
 * Easing
     - stepped retro tween easing
 * Tween Types
-    - rgba
-    - fade
+    - opacity
     - angle from/to angle + clockwise/anti
     - groups sequential and parallel, maybe overload + and *
     - seek behavior
     - shake rattling tween- shakes object violently
-    - spawner, add skipped waves feature
-    - sprite animation
+    - sprite animation, sprite opacity
     - move by not move to
     - rotate/skew/stretch with transform matrix tween
     - one time tick tween, like timer
     - delay tween, there just for delaying until completion event
+    - add spawner non-linear ease
 * Proxy decorators    
     - SDLx::Rect proxy for 2D paths
     - face angle for path tweens
@@ -96,6 +125,8 @@ TODO
 * Performance
     - share polyline paths
     - pool tweens
+* Accuracy
+    - add spawner skipped waves feature
 
 
 INSTALLATION

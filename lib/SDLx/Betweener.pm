@@ -3,6 +3,7 @@ package SDLx::Betweener;
 use 5.010001;
 use strict;
 use warnings;
+use Scalar::Util qw(weaken);
 use SDL;
 use SDLx::Betweener::Timeline;
 
@@ -50,7 +51,7 @@ sub Ease_Names { @Ease_Names }
 sub new {
     my ($class, %args) = @_;
     my $timeline       = SDLx::Betweener::Timeline->new;
-    my $move_handler   = sub { $timeline->tick(SDL::get_ticks) };
+    my $move_handler   = sub { $timeline->tick };
     $args{app}->add_move_handler($move_handler) if $args{app};
     return bless {
         timeline     => $timeline,
@@ -67,8 +68,7 @@ sub DESTROY {
 
 sub tick {
     my ($self, $now) = @_;
-    $now = SDL::get_ticks unless defined $now;
-    $self->{timeline}->tick($now);
+    $self->{timeline}->tick($now? $now: ());
 }
 
 sub tween_int {
@@ -84,6 +84,82 @@ sub tween_float {
 sub tween_path {
     my ($self, %args) = @_;
     return $self->tween(TWEEN_PATH, %args);
+}
+
+sub tween_spawn {
+    my ($self, %args) = @_;
+    my $on    = $args{on}                || die 'No "on" given';
+    my $proxy = $Proxy_Lookup{ref $on}   || die "unknown proxy type: $on";
+    my $ease  = $Ease_Lookup{$args{ease} || 'linear'};
+    my $waves = delete($args{waves})     || die 'No "waves" given to spawn tween';
+
+    die 'tween_spawn only supports linear ease, mail me if you need non-linear'
+        if $ease;
+
+    my $inner = $proxy == CALLBACK_PROXY? $on:
+                $proxy == METHOD_PROXY  ? do {
+                    my $method = [keys   %$on]->[0];
+                    my $obj    = [values %$on]->[0];
+                    weaken($obj);
+                    sub { $obj->$method(@_) };
+                }: die 'Cannot use direct proxy on spawn tween';
+    
+    my $copy = 'Tween not set yet';
+
+    # TODO wave skipping
+    $args{on} = sub {
+        my $top_wave      = shift;
+        my $cycle_start_t = $copy->get_cycle_start_time;
+        my $total_pause_t = $copy->get_total_pause_time;
+        my $inter_wave_t  = $copy->get_duration / ($waves - 1);
+        my $start_t       = $cycle_start_t + $total_pause_t + $top_wave * $inter_wave_t;
+        $inner->($top_wave, $start_t);
+    };
+
+    $args{from} = 0;
+    $args{to}   = $waves - 1;
+
+    my $tween = $self->tween_int(%args);
+
+    $copy = $tween;
+    weaken($copy);
+
+    return $tween;
+}
+
+sub tween_fade {
+    my ($self, %args) = @_;
+    my $on    = $args{on}              || die 'No "on" given';
+    my $proxy = $Proxy_Lookup{ref $on} || die "unknown proxy type: $on";
+
+    my ($from, $to);
+
+    # try to get 'from/to' from range
+    ($args{from}, $args{to}) = @{ delete $args{range} } if $args{range};
+    # must have "to" by now
+    $to = $args{to};
+    die 'No "to" defined' unless defined $to;
+    $from = $args{from};
+
+    unless (defined $from) {
+        # if we have no 'from' lets try to get it from the proxy
+        if ($proxy == DIRECT_PROXY) {
+            $from = $$on;
+        } elsif ($proxy == METHOD_PROXY) {
+            my $method = [keys %$on]->[0];
+            $from = [values %$on]->[0]->$method;
+        } elsif ($proxy == CALLBACK_PROXY)
+            { die 'No "from" given for callback proxy' }
+    }
+
+    # 'to' is given as byte of final opacity, we turn it into final
+    # rgba value using 'from'
+    $to = ($from & 0xFFFFFF00) | $to;
+
+    $args{from} = $from;
+    $args{to}   = $to;
+
+    return $self->tween_rgba(%args);
 }
 
 sub tween_rgba {
@@ -200,9 +276,3 @@ sub tween {
 
 1;
 
-__END__
-
-path => [
-    {linear => {from=>[1,2], to=>[3,4]}}
-    {linear => {from=>[1,2], to=>[3,4]}}
-],

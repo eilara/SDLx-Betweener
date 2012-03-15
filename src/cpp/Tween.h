@@ -21,6 +21,7 @@ class Tween : public Ticker {
         void resume  (Uint32 now);
 
         Uint32 get_cycle_start_time();
+        Uint32 get_total_pause_time();
         Uint32 get_duration();
         void   set_duration(Uint32 new_duration, Uint32 now);
     protected:

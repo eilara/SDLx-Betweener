@@ -26,8 +26,8 @@ my $app = SDLx::App->new
 my $tweener  = SDLx::Betweener->new(app => $app);
 my $sprite   = SDLx::Surface->load($IMAGE);
 my $src_rect = SDLx::Rect->new(0, 0, 32, 32);
-my $spawner  = $tweener->tween_int
-    (t=>$DURATION, range=>[0,$ONION_COUNT-1], on=>\&spawn_creep);
+my $spawner  = $tweener->tween_spawn
+    (t=>$DURATION, waves => $ONION_COUNT, on=>\&spawn_creep);
 
 # list of onion pairs, each pair a rect and its onion tween    
 my @onions = map {
@@ -54,13 +54,12 @@ $app->add_show_handler(sub {
     $app->update;
 });
 
-$spawner->start(0);
+$spawner->start(SDL::get_ticks());
 $app->run;
 
 sub spawn_creep {
-# TODO handle wave skipping
-    my $wave = shift;
+    my ($wave, $start_t) = @_;
     my $tween = $onions[$wave - 1]->[1];
-    $tween->start($wave * $INTER_WAVE_T);
+    $tween->start($start_t);
 }
 

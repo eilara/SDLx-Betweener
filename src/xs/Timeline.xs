@@ -5,6 +5,7 @@
 #include "PerlMethodCompleter.h"
 #include "PerlProxyFactory.h"
 #include "PerlPathFactory.h"
+#include "SDL.h"
 
 MODULE = SDLx::Betweener         PACKAGE = SDLx::Betweener::Timeline
 
@@ -12,8 +13,12 @@ Timeline *
 Timeline::new()
 
 void
-Timeline::tick(now)
-    Uint32 now
+Timeline::tick(...)
+    CODE:
+        Uint32 now = items == 2?     \
+            (Uint32) SvIV(ST(1)):    \
+            (Uint32) SDL_GetTicks(); \
+        THIS->tick(now);
 
 Tween *
 Timeline::_tween_int(proxy_type, proxy_args, duration, from, to, ease, forever, repeat, bounce, reverse)
