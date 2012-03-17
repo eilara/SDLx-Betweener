@@ -54,7 +54,7 @@ $app->add_show_handler(sub {
     $app->update;
 });
 
-$spawner->start(SDL::get_ticks());
+$spawner->start;
 $app->run;
 
 sub spawn_creep {

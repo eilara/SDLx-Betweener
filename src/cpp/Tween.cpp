@@ -26,8 +26,9 @@ void Tween::start(Uint32 now) {
     Ticker::start(now);
     control->animation_started();
 
-    cycle_start_time = now;
+    cycle_start_time         = now;
     last_cycle_complete_time = 0;
+    total_pause_time         = 0;
     form->start(control->is_reversed()? 1 :0);
 }
 

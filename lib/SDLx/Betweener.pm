@@ -202,6 +202,7 @@ sub tween_rgba {
         $args{repeat}  || 1,
         $args{bounce}  || 0,
         $args{reverse} || 0,
+        $self->extract_completer(\%args),
     );
 }
 
@@ -271,7 +272,15 @@ sub tween {
         $args{repeat}  || 1,
         $args{bounce}  || 0,
         $args{reverse} || 0,
+        $self->extract_completer(\%args),
     );
+}
+
+sub extract_completer {
+    my ($self, $args) = @_;
+    my $done = $args->{done} || sub {};
+    $done = [%$done] if ref($done) eq 'HASH';
+    return $done;
 }
 
 1;

@@ -37,7 +37,7 @@ for setting Perl values (scalar for 1D tween, array ref for 2D) directly,
 for calling a callback with the tweened value, and for calling a method.
 
 A tween uses a CycleControl object for controlling cycle repeat and cycle
-reverse.  A tween can be made to run forever, to reverse on cycle completion
+reverse. A tween can be made to run forever, to reverse on cycle completion
 (bounce), to start reversed, and to repeat N times.
 
 Tween start/stop registers/unregisters the tween on a timeline.
@@ -50,6 +50,7 @@ FEATURES
     - 1D float
     - 2D path
     - RGBA color
+    - opacity of RGBA color
     - spawner
 * Cycle Control
     - start/stop
@@ -59,6 +60,7 @@ FEATURES
     - bounce
     - forever
     - repeat
+    - tween complete event
 * Proxying Tween Values to Perl
     - direct set scalar or scalars in an array
     - callback
@@ -82,7 +84,6 @@ TODO
 * Easing
     - stepped retro tween easing
 * Tween Types
-    - opacity
     - angle from/to angle + clockwise/anti
     - groups sequential and parallel, maybe overload + and *
     - seek behavior
@@ -93,6 +94,7 @@ TODO
     - one time tick tween, like timer
     - delay tween, there just for delaying until completion event
     - add spawner non-linear ease
+    - smooth seek with change targets
 * Proxy decorators    
     - SDLx::Rect proxy for 2D paths
     - face angle for path tweens
@@ -122,6 +124,7 @@ TODO
     - perl proxy code duplication
     - template specialization on proxies not method overloading
     - specialize templates for FLOORED in linear tween form
+    - refactor mess in tween factory
 * Performance
     - share polyline paths
     - pool tweens
@@ -156,4 +159,9 @@ This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.10.1 or,
 at your option, any later version of Perl 5 you may have available.
 
+
+DEMO IMAGES
+
+Zombies:
+    Amazing Clint Bellanger at http://opengameart.org/content/zombie-sprites
 

@@ -21,7 +21,7 @@ void CycleControl::cycle_complete() {
 }
 
 bool CycleControl::is_animation_complete() {
-    return !forever && repeat_counter >= 0;
+    return !forever && repeat_counter <= 0;
 }
 
 bool CycleControl::is_reversed() {
