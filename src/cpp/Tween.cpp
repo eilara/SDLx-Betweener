@@ -93,6 +93,7 @@ void Tween::on_tick(Uint32 now) {
         return;
     }
 
+    // begin repeat cycle
     cycle_start_time += elapsed;
     last_cycle_complete_time = 0;
 }

@@ -32,6 +32,9 @@ my $circle   = SDLx::Betweener::eg_06::Circle->new(radius=>30, xy=>[320,380]);
 
 my ($tween_1, $tween_2, $tween_3);
 
+# note you can set a completer using a callback or an object/method pair
+# here we show how to use both to achieve the same effect
+
 $tween_1 = $tweener->tween_path(
     t    => 3_000,
     to   => [320, 100],
@@ -51,11 +54,11 @@ $tween_2 = $tweener->tween_int(
 );
 
 $tween_3 = $tweener->tween_path(
-    t      => 3_000,
-    on     => {xy => $circle},
-    ease   => 'p4_in_out',
-    done   => sub { $tween_1->start },
-    path   => [circular => {
+    t    => 3_000,
+    on   => {xy => $circle},
+    ease => 'p4_in_out',
+    done => {start => $tween_1},
+    path => [circular => {
         center => [320,240],
         radius => 140,
         from   => 3*pip2,

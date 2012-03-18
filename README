@@ -103,7 +103,6 @@ TODO
     - elastic speed of time, FFW/REW, seek progress
 * API
     - before/after tween delay
-    - perl completers
     - allow speed instead of duration
     - animated role keeps list of animations
     - or maybe as a trait on a moose attribute, which makes it
