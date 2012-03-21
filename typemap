@@ -3,6 +3,7 @@ Uint32          T_UV
 
 Timeline *      O_OBJECT
 Tween *         O_OBJECT
+Seeker *        O_OBJECT
 
 OUTPUT
 O_OBJECT

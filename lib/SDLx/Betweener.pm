@@ -162,6 +162,44 @@ sub tween_fade {
     return $self->tween_rgba(%args);
 }
 
+sub tween_seek {
+    my ($self, %args) = @_;
+    my $on     = $args{on}              || die 'No "on" given';
+    my $speed  = $args{speed}           || die 'No "speed" given';
+    my $proxy  = $Proxy_Lookup{ref $on} || die "unknown proxy type: $on";
+
+    my ($from, $to);
+
+    # try to get 'from/to' from range
+    ($args{from}, $args{to}) = @{ $args{range} } if $args{range};
+    # must have "to" by now
+    $to = $args{to};
+    die 'No "to" given for seeker target' unless defined $to;
+    $from = $args{from};
+
+    unless (defined $from) {
+        # if we have no 'from' lets try to get it from the proxy
+        if ($proxy == DIRECT_PROXY) {
+            $from = [@$on];
+        } elsif ($proxy == METHOD_PROXY) {
+            my $method = [keys %$on]->[0];
+            $from = [values %$on]->[0]->$method;
+        } elsif ($proxy == CALLBACK_PROXY)
+            { die 'No "from" given for callback proxy of seeker target' }
+    }
+
+    $on = [%$on] if $proxy == METHOD_PROXY;
+
+    return $self->{timeline}->_tween_seek(
+        $proxy,
+        $on,
+        $speed,
+        $from,
+        $to,
+        $self->extract_completer(\%args),
+    );
+}
+
 sub tween_rgba {
     my ($self, %args) = @_;
     my $builder = $Tween_Lookup[TWEEN_RGBA];

@@ -31,7 +31,7 @@ my $i; while($i++ < $STAR_COUNT) {
         t       => (int(rand 8_000) + 1000),
         to      => $to,
         on      => $star->[0],
-        ease    => 'exponential_in',
+        ease    => 'p2_in',
         forever => 1,
     );
     $star->[1] = $tween;

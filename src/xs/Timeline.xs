@@ -3,6 +3,9 @@
 #include "CycleControl.h"
 #include "Timeline.h"
 #include "ICompleter.h"
+#include "ISeekerTarget.h"
+#include "Seeker.h"
+#include "PerlDirectSeekerTarget.h"
 #include "PerlCompleterFactory.h"
 #include "PerlProxyFactory.h"
 #include "PerlPathFactory.h"
@@ -63,7 +66,7 @@ Timeline::_tween_float(proxy_type, proxy_args, duration, from, to, ease, forever
         CycleControl    *control   = new CycleControl(forever, repeat, bounce, reverse);
         Tween           *tween     = THIS->build_float_tween(proxy, completer, duration, from, to, ease, control);
         char             CLASS[]   = "SDLx::Betweener::Tween";
-        RETVAL                         = tween;
+        RETVAL                     = tween;
     OUTPUT:
         RETVAL
 
@@ -87,7 +90,7 @@ Timeline::_tween_path(proxy_type, proxy_args, duration, path_type, path_args, ea
         IPath         *path      = Build_Path(path_type, path_args);
         Tween         *tween     = THIS->build_path_tween(proxy, completer, duration, path, ease, control);
         char           CLASS[]   = "SDLx::Betweener::Tween";
-        RETVAL                         = tween;
+        RETVAL                   = tween;
     OUTPUT:
         RETVAL
 
@@ -120,7 +123,30 @@ Timeline::_tween_rgba(proxy_type, proxy_args, duration, from, to, ease, forever,
         CycleControl  *control   = new CycleControl(forever, repeat, bounce, reverse);
         Tween         *tween     = THIS->build_rgba_tween(proxy, completer, duration, from_v, to_v, ease, control);
         char           CLASS[]   = "SDLx::Betweener::Tween";
-        RETVAL                         = tween;
+        RETVAL                   = tween;
+    OUTPUT:
+        RETVAL
+
+Seeker *
+Timeline::_tween_seek(proxy_type, proxy_args, speed, start_xy_sv, target_sv, done)
+    int    proxy_type
+    SV    *proxy_args
+    float  speed
+    SV    *start_xy_sv
+    SV    *target_sv
+    SV    *done
+    CODE:
+        AV*      arr = (AV*) SvRV(start_xy_sv);
+        SV**     e1  = av_fetch(arr, 0, 0);
+        SV**     e2  = av_fetch(arr, 1, 0);
+        Vector2i xy  = { {(int) SvIV(*e1), (int) SvIV(*e2)} };
+
+        IProxy<int,2> *proxy     = Build_Proxy<int,2>(proxy_type, proxy_args);
+        ICompleter    *completer = Build_Completer(done);
+        ISeekerTarget *target    = new PerlDirectSeekerTarget(target_sv);
+        Seeker        *seeker    = new Seeker(THIS, completer, proxy, target, xy, speed);
+        char           CLASS[]   = "SDLx::Betweener::Seeker";
+        RETVAL                   = seeker;
     OUTPUT:
         RETVAL
 

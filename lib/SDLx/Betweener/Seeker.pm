@@ -1,4 +1,4 @@
-package SDLx::Betweener::Tween;
+package SDLx::Betweener::Seeker;
 
 use strict;
 use warnings;
