@@ -49,6 +49,13 @@ Vector<T,DIM> operator- (const Vector<T,DIM>& lhs, const Vector<T,DIM>& rhs) {
     return res;
 }
 
+template<int DIM>
+Vector<float,DIM> operator- (const Vector<int,DIM>& lhs, const Vector<float,DIM>& rhs) {
+    Vector<float,DIM> res;
+    for (unsigned i=0; i<DIM; ++i) { res[i] = ((float) lhs[i]) - rhs[i]; }
+    return res;
+}
+
 // * on int vector and float k to int vector
 template<int DIM>
 Vector<int,DIM> operator* (const Vector<int,DIM>& t, float k) {
@@ -97,10 +104,25 @@ float distance(const Vector<T,DIM>& lhs, const Vector<T,DIM>& rhs) {
     return sqrt(d);
 }
 
+template<int DIM>
+float distance(const Vector<int,DIM>& lhs, const Vector<float,DIM>& rhs) {
+    Vector<float,DIM> diff = lhs - rhs;
+    float d = 0;
+    for (unsigned i=0; i<DIM; ++i) d += diff[i] * diff[i];
+    return sqrt(d);
+}
+
 template<typename T, int DIM>
 Vector<T,DIM> mult_floor(const Vector<T,DIM>& t, float k) {
     Vector<T,DIM> res;
     for (unsigned i=0; i<DIM; ++i) { res[i] = (int) (k * (float) t[i]); }
+    return res;
+}
+
+template<int DIM>
+Vector<int,DIM> round_vec(const Vector<float,DIM>& t) {
+    Vector<int,DIM> res;
+    for (unsigned i=0; i<DIM; ++i) { res[i] = (int) round(t[i]); }
     return res;
 }
 

@@ -46,7 +46,7 @@ class LinearTweenForm : public ITweenForm {
 
         void compute_value(float t) {
             value = from + (FLOORED?
-                mult_floor<T,DIM>(diff ,t):
+                mult_floor(diff ,t):
                 (diff * t)
             );
         }

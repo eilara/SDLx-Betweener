@@ -20,6 +20,12 @@ void
 Seeker::stop()
 
 void
+Seeker::restart(...)
+    CODE:
+        COMPUTE_NOW()
+        THIS->restart(now);
+
+void
 Seeker::pause(...)
     CODE:
         COMPUTE_NOW()

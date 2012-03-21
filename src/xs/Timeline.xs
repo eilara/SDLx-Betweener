@@ -139,7 +139,7 @@ Timeline::_tween_seek(proxy_type, proxy_args, speed, start_xy_sv, target_sv, don
         AV*      arr = (AV*) SvRV(start_xy_sv);
         SV**     e1  = av_fetch(arr, 0, 0);
         SV**     e2  = av_fetch(arr, 1, 0);
-        Vector2i xy  = { {(int) SvIV(*e1), (int) SvIV(*e2)} };
+        Vector2f xy  = { {(float) SvIV(*e1), (float) SvIV(*e2)} };
 
         IProxy<int,2> *proxy     = Build_Proxy<int,2>(proxy_type, proxy_args);
         ICompleter    *completer = Build_Completer(done);
