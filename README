@@ -9,6 +9,37 @@ STATUS
 Alost same features as SDLx-Tween.
 
 
+FEATURES
+
+* Tween Types
+    - 1D int
+    - 1D float
+    - 2D path
+    - RGBA color
+    - opacity of RGBA color
+    - spawner
+    - seeker
+* Cycle Control
+    - start/stop
+    - pause/resume
+    - change tween duration while running
+    - reverse
+    - bounce
+    - forever
+    - repeat
+    - tween complete event
+* Proxying Tween Values to Perl
+    - direct set scalar or scalars in an array
+    - callback
+    - method
+* Easing
+    - all of Robert Penner's easing functions
+* 2D Paths
+    - linear
+    - circular
+    - polyline
+
+
 DESIGN
 
 Timeline has a std::set of Tween objects. It broadcasts tick(Uint32 now)
@@ -41,37 +72,6 @@ reverse. A tween can be made to run forever, to reverse on cycle completion
 (bounce), to start reversed, and to repeat N times.
 
 Tween start/stop registers/unregisters the tween on a timeline.
-
-
-FEATURES
-
-* Tween Types
-    - 1D int
-    - 1D float
-    - 2D path
-    - RGBA color
-    - opacity of RGBA color
-    - spawner
-* Cycle Control
-    - start/stop
-    - pause/resume
-    - change tween duration while running
-    - reverse
-    - bounce
-    - forever
-    - repeat
-    - tween complete event
-* Proxying Tween Values to Perl
-    - direct set scalar or scalars in an array
-    - callback
-    - method
-* Easing
-    - all of Robert Penner's easing functions
-* 2D Paths
-    - linear
-    - circular
-    - polyline
-
  
 TODO
 
@@ -86,7 +86,6 @@ TODO
 * Tween Types
     - angle from/to angle + clockwise/anti
     - groups sequential and parallel, maybe overload + and *
-    - seek behavior
     - shake rattling tween- shakes object violently
     - sprite animation, sprite opacity
     - move by not move to
@@ -158,9 +157,4 @@ This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.10.1 or,
 at your option, any later version of Perl 5 you may have available.
 
-
-DEMO IMAGES
-
-Zombies:
-    Amazing Clint Bellanger at http://opengameart.org/content/zombie-sprites
 

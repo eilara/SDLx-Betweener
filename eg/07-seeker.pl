@@ -6,7 +6,6 @@ use warnings;
 use FindBin qw($Bin);
 use lib ("$Bin/..", "$Bin/../lib", "$Bin/../blib/arch", "$Bin/../blib/lib");
 use Math::Trig;
-use SDL;
 use SDL::GFX::Primitives;
 use SDL::Events;
 use SDLx::App;
@@ -18,7 +17,7 @@ my $COUNT = 20000;
 my $w = 640;
 my $h = 480;
 
-my $app = SDLx::App->new(title=>'Easing Functions', width=>$w, height=>$h);
+my $app = SDLx::App->new(title=>'Seeker Behavior', width=>$w, height=>$h);
 my $tweener = SDLx::Betweener->new(app => $app);
 
 my $player = [320, 200];
@@ -40,23 +39,19 @@ my $i; while($i++ < $COUNT) {
 
 $app->add_show_handler(sub {
     $app->draw_rect(undef, 0xFFFFFFFF);
-    for my $creep (@creeps) {
-        SDL::GFX::Primitives::pixel_color($app, @{$creep->[0]}, 0x000000FF);
-    }
+    SDL::GFX::Primitives::pixel_color($app, @{$_->[0]}, 0x000000FF)
+        for @creeps;
     $app->update;
 });
 
 $app->add_event_handler(sub {
     my ($e, $app) = @_;
-    if($e->type == SDL_QUIT) {
-        $app->stop;
-    } elsif ($e->type == SDL_MOUSEMOTION) {
+       if($e->type == SDL_QUIT) { $app->stop }
+    elsif ($e->type == SDL_MOUSEMOTION) {
         $player->[0] = $e->motion_x;
         $player->[1] = $e->motion_y;
     }
-    return 0;
 });
 
 $_->[1]->start for @creeps;
-
 $app->run;
