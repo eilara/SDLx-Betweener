@@ -132,25 +132,7 @@ sub tween_fade {
     my $on    = $args{on}              || die 'No "on" given';
     my $proxy = $Proxy_Lookup{ref $on} || die "unknown proxy type: $on";
 
-    my ($from, $to);
-
-    # try to get 'from/to' from range
-    ($args{from}, $args{to}) = @{ delete $args{range} } if $args{range};
-    # must have "to" by now
-    $to = $args{to};
-    die 'No "to" defined' unless defined $to;
-    $from = $args{from};
-
-    unless (defined $from) {
-        # if we have no 'from' lets try to get it from the proxy
-        if ($proxy == DIRECT_PROXY) {
-            $from = $$on;
-        } elsif ($proxy == METHOD_PROXY) {
-            my $method = [keys %$on]->[0];
-            $from = [values %$on]->[0]->$method;
-        } elsif ($proxy == CALLBACK_PROXY)
-            { die 'No "from" given for callback proxy' }
-    }
+    my ($from, $to) = extract_range($proxy, $on, %args);;
 
     # 'to' is given as byte of final opacity, we turn it into final
     # rgba value using 'from'
@@ -168,25 +150,7 @@ sub tween_seek {
     my $speed  = $args{speed}           || die 'No "speed" given';
     my $proxy  = $Proxy_Lookup{ref $on} || die "unknown proxy type: $on";
 
-    my ($from, $to);
-
-    # try to get 'from/to' from range
-    ($args{from}, $args{to}) = @{ $args{range} } if $args{range};
-    # must have "to" by now
-    $to = $args{to};
-    die 'No "to" given for seeker target' unless defined $to;
-    $from = $args{from};
-
-    unless (defined $from) {
-        # if we have no 'from' lets try to get it from the proxy
-        if ($proxy == DIRECT_PROXY) {
-            $from = [@$on];
-        } elsif ($proxy == METHOD_PROXY) {
-            my $method = [keys %$on]->[0];
-            $from = [values %$on]->[0]->$method;
-        } elsif ($proxy == CALLBACK_PROXY)
-            { die 'No "from" given for callback proxy of seeker target' }
-    }
+    my ($from, $to) = extract_range($proxy, $on, %args);;
 
     $on = [%$on] if $proxy == METHOD_PROXY;
 
@@ -196,7 +160,7 @@ sub tween_seek {
         $speed,
         $from,
         $to,
-        $self->extract_completer(\%args),
+        extract_completer(\%args),
     );
 }
 
@@ -208,25 +172,7 @@ sub tween_rgba {
     my $proxy   = $Proxy_Lookup{ref $on}   || die "unknown proxy type: $on";
     my $ease    = $Ease_Lookup{$args{ease} || 'linear'};
 
-    my ($from, $to);
-
-    # try to get 'from/to' from range
-    ($args{from}, $args{to}) = @{ $args{range} } if $args{range};
-    # must have "to" by now
-    $to = $args{to};
-    die 'No "to" defined' unless defined $to;
-    $from = $args{from};
-
-    unless (defined $from) {
-        # if we have no 'from' lets try to get it from the proxy
-        if ($proxy == DIRECT_PROXY) {
-            $from = $$on;
-        } elsif ($proxy == METHOD_PROXY) {
-            my $method = [keys %$on]->[0];
-            $from = [values %$on]->[0]->$method;
-        } elsif ($proxy == CALLBACK_PROXY)
-            { die 'No "from" given for callback proxy' }
-    }
+    my ($from, $to) = extract_range($proxy, $on, %args);;
 
     $on = [%$on] if $proxy == METHOD_PROXY;
 
@@ -240,7 +186,7 @@ sub tween_rgba {
         $args{repeat}  || 1,
         $args{bounce}  || 0,
         $args{reverse} || 0,
-        $self->extract_completer(\%args),
+        extract_completer(\%args),
     );
 }
 
@@ -310,16 +256,42 @@ sub tween {
         $args{repeat}  || 1,
         $args{bounce}  || 0,
         $args{reverse} || 0,
-        $self->extract_completer(\%args),
+        extract_completer(\%args),
     );
 }
 
 sub extract_completer {
-    my ($self, $args) = @_;
+    my ($args) = @_;
     my $done = $args->{done} || sub {};
     $done = [%$done] if ref($done) eq 'HASH';
     return $done;
 }
+
+# extracts "from" key from args
+sub extract_range {
+    my ($proxy, $on, %args) = @_;
+    my ($from, $to);
+
+    # try to get 'from/to' from range
+    ($args{from}, $args{to}) = @{ $args{range} } if $args{range};
+    # must have "to" by now
+    $to = $args{to};
+    die 'No "to" defined' unless defined $to;
+
+    $from = $args{from};
+    unless (defined $from) {
+        # if we have no 'from' lets try to get it from the proxy
+        if ($proxy == DIRECT_PROXY) {
+            $from = ref($on) eq 'SCALAR'? $$on: $on;
+        } elsif ($proxy == METHOD_PROXY) {
+            my $method = [keys %$on]->[0];
+            $from = [values %$on]->[0]->$method;
+        } elsif ($proxy == CALLBACK_PROXY)
+            { die 'No "from" given for callback proxy' }
+    }
+    return ($from, $to);
+}
+
 
 1;
 

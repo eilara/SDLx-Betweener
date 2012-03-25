@@ -29,7 +29,7 @@ my $i; while($i++ < $COUNT) {
     my $creep  = [$from, undef];
     my $seeker = $tweener->tween_seek(
         on    => $creep->[0],
-        speed => (rand(350) + 50) / 1_000,
+        speed => (rand(150) + 50) / 1_000,
         to    => $player,
         done  => sub { $creep->[1]->restart },
     );

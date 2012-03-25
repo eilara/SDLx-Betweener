@@ -1,8 +1,5 @@
 #!/usr/bin/perl
 
-use FindBin qw($Bin);
-use lib ("$Bin/..", "$Bin/../blib/arch", "$Bin/../blib/lib");
-
 package SDLx::Betweener::eg_05::Circle;
 
 use Moose;
@@ -41,6 +38,8 @@ sub BUILD { shift->tween }
 package main;
 use strict;
 use warnings;
+use FindBin qw($Bin);
+use lib ("$Bin/..", "$Bin/../lib", "$Bin/../blib/arch", "$Bin/../blib/lib");
 use SDL::Events;
 use SDLx::App;
 use SDLx::Text;
