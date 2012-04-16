@@ -28,7 +28,7 @@ my $i; while($i++ < $COUNT) {
     my $from   = [int cos($theta)*$w + $w/2, int sin($theta)*$h + $h/2];
     my $creep  = [$from, undef];
     my $seeker = $tweener->tween_seek(
-        on    => $creep->[0],
+        on    => $from,
         speed => (rand(150) + 50) / 1_000,
         to    => $player,
         done  => sub { $creep->[1]->restart },

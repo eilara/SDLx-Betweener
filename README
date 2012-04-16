@@ -1,133 +1,16 @@
-SDLx::Betweener version 0.01
-============================
+SDLx::Betweener
+===============
 
-Will replace SDLx-Tween because it is better.
+SDL Perl XS Tweening Animation Library
+
+Writing Perl SDL move handlers for games is hard. SDLx::Betweener helps.
+
+See docs in lib/SDLx/Betweener.pm.
 
 
 STATUS
 
-Alost same features as SDLx-Tween.
-
-
-FEATURES
-
-* Tween Types
-    - 1D int
-    - 1D float
-    - 2D path
-    - RGBA color
-    - opacity of RGBA color
-    - spawner
-    - seeker
-* Cycle Control
-    - start/stop
-    - pause/resume
-    - change tween duration while running
-    - reverse
-    - bounce
-    - forever
-    - repeat
-    - tween complete event
-* Proxying Tween Values to Perl
-    - direct set scalar or scalars in an array
-    - callback
-    - method
-* Easing
-    - all of Robert Penner's easing functions
-* 2D Paths
-    - linear
-    - circular
-    - polyline
-
-
-DESIGN
-
-Timeline has a std::set of Tween objects. It broadcasts tick(Uint32 now)
-to them.
-
-The Tween tick method normalizes the time given using now/tween_duration,
-so that it is between 0 and 1.
-
-Then the time is passed through the easing function, which maps it to some 
-eased time value, useful for non-linear speed animations.
-
-The tween then calls tick(Uint32 now) on its ITweenForm. The tween form
-translates the eased time into some domain value and pushes it into the
-tween target using the tween proxy.
-
-LinearTweenForm interpolates between 2 values ("from" and "to") in a linear
-path. The values tweened are Vector<typename T, int DIM>.
-
-PathTweenForm is more general. It lets you tween a Vector<int,2> along a 2D
-path, given in construction. LinearPath makes the form behave like a
-LinearTweenForm.  CircularPath tweens along a circle or a pie slice from it.
-PolylinePath tweens along a set of linear segments.
-
-A tween form uses an IProxy for pushing the value into Perl. There are proxies
-for setting Perl values (scalar for 1D tween, array ref for 2D) directly,
-for calling a callback with the tweened value, and for calling a method.
-
-A tween uses a CycleControl object for controlling cycle repeat and cycle
-reverse. A tween can be made to run forever, to reverse on cycle completion
-(bounce), to start reversed, and to repeat N times.
-
-Tween start/stop registers/unregisters the tween on a timeline.
- 
-TODO
-
-* Build
-    - Win32
-* Paths
-    - Bezier paths
-    - import bezier paths from Inkscape
-    - import polyline path waypoints from Tiled map editor 
-* Easing
-    - stepped retro tween easing
-* Tween Types
-    - angle from/to angle + clockwise/anti
-    - groups sequential and parallel, maybe overload + and *
-    - shake rattling tween- shakes object violently
-    - sprite animation, sprite opacity
-    - move by not move to
-    - rotate/skew/stretch with transform matrix tween
-    - one time tick tween, like timer
-    - delay tween, there just for delaying until completion event
-    - add spawner non-linear ease
-    - smooth seek with change targets
-* Proxy decorators    
-    - SDLx::Rect proxy for 2D paths
-    - face angle for path tweens
-    - add/remove to/from grid cell on move
-* Timeline
-    - elastic speed of time, FFW/REW, seek progress
-* API
-    - before/after tween delay
-    - allow speed instead of duration
-    - animated role keeps list of animations
-    - or maybe as a trait on a moose attribute, which makes it
-      tweenable
-* Demos
-    - theatrical demo with parallel and sequenced tweens
-    - shape tweening with lots of particls
-    - rain
-    - text typing demo
-    - add fading trails to easing demo
-* Safety
-    - should warn if start/stop tween with destroyed timeline?
-    - float setters should check for int targets and upgrade SV
-    - if you upgrade targets of direct proxy to string
-      (e.g. by Data::Dumpering it) you will never see
-      tween updates. Maybe Devel::Peek it and warn?
-* Refactor
-    - perl proxy code duplication
-    - template specialization on proxies not method overloading
-    - specialize templates for FLOORED in linear tween form
-    - refactor mess in tween factory
-* Performance
-    - share polyline paths
-    - pool tweens
-* Accuracy
-    - add spawner skipped waves feature
+Ready but untested. Only built on Linux.
 
 
 INSTALLATION
@@ -151,10 +34,23 @@ This module requires these other modules and libraries:
 
 COPYRIGHT AND LICENCE
 
+
 Copyright (C) 2012 by Ran Eilam
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.10.1 or,
 at your option, any later version of Perl 5 you may have available.
+
+Big thanks to:
+
+    Sam Hocevar, from 14 rue de Plaisance, 75014 Paris, France
+    https://raw.github.com/warrenm
+
+For his excellent AHEasing lib which SDLx-Betweener uses for easing
+functions. The license is in the tweencee/ dir. It is at:
+
+    https://github.com/warrenm/AHEasing
+
+Check that page for some great info about easing functions.
 
 

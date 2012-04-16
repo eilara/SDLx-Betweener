@@ -22,6 +22,7 @@ my @Tween_Lookup = qw(_tween_int _tween_float _tween_path _tween_rgba);
 
 use constant { DIRECT_PROXY => 1, CALLBACK_PROXY => 2, METHOD_PROXY => 3 };
 my %Proxy_Lookup = do { my $i = 1; map { $_ => $i++ } qw(ARRAY CODE HASH)};
+$Proxy_Lookup{SCALAR} = DIRECT_PROXY;
 
 # path types
 
@@ -90,12 +91,14 @@ sub tween_spawn {
     my ($self, %args) = @_;
     my $on    = $args{on}                || die 'No "on" given';
     my $proxy = $Proxy_Lookup{ref $on}   || die "unknown proxy type: $on";
-    my $ease  = $Ease_Lookup{$args{ease} || 'linear'};
     my $waves = delete($args{waves})     || die 'No "waves" given to spawn tween';
+    my $ease  = $Ease_Lookup{$args{ease} || 'linear'};
 
     die 'tween_spawn only supports linear ease, mail me if you need non-linear'
         if $ease;
 
+    # inner callback calls the user given proxy
+    # inner callback used by outer proxy which, which is a CALLBACK_PROXY 
     my $inner = $proxy == CALLBACK_PROXY? $on:
                 $proxy == METHOD_PROXY  ? do {
                     my $method = [keys   %$on]->[0];
@@ -104,6 +107,15 @@ sub tween_spawn {
                     sub { $obj->$method(@_) };
                 }: die 'Cannot use direct proxy on spawn tween';
     
+    # we need the tween object for the "on" arg to the tween, because the
+    # spawn tween proxy needs to do calculation using tween properties
+    # but to get the tween we need the "on" arg, a required constructor arg
+    # so we close the "on" closure on a dummy lexical, and change it after
+    # creating the tween, making sure the tween's ref to itself is weak
+
+    # better would be a special kind of proxy, like CALLBACK_PROXY but also
+    # sends the tween as parameter
+
     my $copy = 'Tween not set yet';
 
     # TODO wave skipping
@@ -127,23 +139,6 @@ sub tween_spawn {
     return $tween;
 }
 
-sub tween_fade {
-    my ($self, %args) = @_;
-    my $on    = $args{on}              || die 'No "on" given';
-    my $proxy = $Proxy_Lookup{ref $on} || die "unknown proxy type: $on";
-
-    my ($from, $to) = extract_range($proxy, $on, %args);;
-
-    # 'to' is given as byte of final opacity, we turn it into final
-    # rgba value using 'from'
-    $to = ($from & 0xFFFFFF00) | $to;
-
-    $args{from} = $from;
-    $args{to}   = $to;
-
-    return $self->tween_rgba(%args);
-}
-
 sub tween_seek {
     my ($self, %args) = @_;
     my $on     = $args{on}              || die 'No "on" given';
@@ -162,6 +157,23 @@ sub tween_seek {
         $to,
         extract_completer(\%args),
     );
+}
+
+sub tween_fade {
+    my ($self, %args) = @_;
+    my $on    = $args{on}              || die 'No "on" given';
+    my $proxy = $Proxy_Lookup{ref $on} || die "unknown proxy type: $on";
+
+    my ($from, $to) = extract_range($proxy, $on, %args);;
+
+    # 'to' is given as byte of final opacity, we turn it into final
+    # rgba value using 'from'
+    $to = ($from & 0xFFFFFF00) | $to;
+
+    $args{from} = $from;
+    $args{to}   = $to;
+
+    return $self->tween_rgba(%args);
 }
 
 sub tween_rgba {
@@ -194,8 +206,6 @@ sub tween {
     my ($self, $type, %args) = @_;
     my $builder = $Tween_Lookup[$type];
     my $on      = $args{on}                || die 'No "on" given';
-    my $on_type = ref($on)                 || die '"on" must be ref';
-       $on      = [$on] if $on_type eq 'SCALAR'; # normalize for direct proxy
     my $t       = $args{t}                 || die 'No "t" for duration given';
     my $proxy   = $Proxy_Lookup{ref $on}   || die "unknown proxy type: $on";
     my $ease    = $Ease_Lookup{$args{ease} || 'linear'};
@@ -212,35 +222,11 @@ sub tween {
     if (($type == TWEEN_INT  || $type == TWEEN_FLOAT) ||
         ($type == TWEEN_PATH && $path == LINEAR_PATH)) {
 
-        # try to get 'from/to' from range
-        ($args{from}, $args{to}) = @{ $args{range} } if $args{range};
-        # must have "to" by now
-        $to = $args{to};
-        die 'No "to" defined' unless defined $to;
-        $from = $args{from};
-
-        if (defined $from) {
-            $on = $on->[0] if
-                $proxy == DIRECT_PROXY && @$on == 1;
-        } else {
-            # if we have no 'from' lets try to get it from the proxy
-            if ($proxy == DIRECT_PROXY) {
-                if (@$on == 1) {
-                    $on = $on->[0];
-                    $from = $$on;
-                } else {
-                    $from = $on;
-                }
-            } elsif ($proxy == METHOD_PROXY) {
-                my $method = [keys %$on]->[0];
-                $from = [values %$on]->[0]->$method;
-            } elsif ($proxy == CALLBACK_PROXY)
-                { die 'No "from" given for callback proxy' }
-        }
-
+        ($from, $to) = extract_range($proxy, $on, %args);;
         $path_args = {from=>$from, to=>$to} if $type == TWEEN_PATH;
 
     } else { # then we are building a non linear path tween
+             # no need for from/to but needs path_args
         $path_args = $args{path}->[1];
     }
 

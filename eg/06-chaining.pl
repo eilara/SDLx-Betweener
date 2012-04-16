@@ -40,7 +40,7 @@ $tween_1 = $tweener->tween_path(
     to   => [320, 100],
     on   => {xy => $circle},
     ease => 'p4_in_out',
-    done => sub { $tween_2->start },
+    done => sub { $tween_2->start(shift) },
 );
 
 $tween_2 = $tweener->tween_int(
@@ -50,7 +50,7 @@ $tween_2 = $tweener->tween_int(
     ease   => 'p4_in_out',
     repeat => 2,
     bounce => 1,
-    done   => sub { $tween_3->start },
+    done   => sub { $tween_3->start(shift) },
 );
 
 $tween_3 = $tweener->tween_path(

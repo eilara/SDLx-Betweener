@@ -109,14 +109,14 @@ Timeline::_tween_rgba(proxy_type, proxy_args, duration, from, to, ease, forever,
     SV    *done
     CODE:
         Vector4c from_v, to_v;
-        from_v[3] = (from & 0x000000FF);
-        from_v[2] = (from & 0x0000FF00) >> 8;
+        from_v[3] = (from & 0x000000FF)      ;
+        from_v[2] = (from & 0x0000FF00) >>  8;
         from_v[1] = (from & 0x00FF0000) >> 16;
         from_v[0] = (from & 0xFF000000) >> 24;
-        to_v[3]   = (to   & 0x000000FF);
-        to_v[2]   = (to   & 0x0000FF00) >> 8;
-        to_v[1]   = (to   & 0x00FF0000) >> 16;
-        to_v[0]   = (to   & 0xFF000000) >> 24;
+          to_v[3] = (to   & 0x000000FF)      ;
+          to_v[2] = (to   & 0x0000FF00) >>  8;
+          to_v[1] = (to   & 0x00FF0000) >> 16;
+          to_v[0] = (to   & 0xFF000000) >> 24;
 
         IProxy<int,4> *proxy     = Build_Proxy<int,4>(proxy_type, proxy_args);
         ICompleter    *completer = Build_Completer(done);

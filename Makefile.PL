@@ -21,7 +21,7 @@ WriteMakefile(
     CC                => $cc,
     LD                => '$(CC)',
     ($] >= 5.005 ?
-      (ABSTRACT  => 'SDL Perl XS Tweening Library',
+      (ABSTRACT  => 'SDL Perl XS Tweening Animation Library',
        AUTHOR         => 'eilara <ran.eilam@gmail.com>') : ()),
     LIBS              => Alien::SDL->config('libs', '-lm'),
     DEFINE            => '', # e.g., '-DHAVE_SOMETHING'
