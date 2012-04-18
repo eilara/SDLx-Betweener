@@ -3,7 +3,6 @@
 #define PATHTWEENFORM_H
 
 #include <stdlib.h>
-#include <iostream>
 #include "Vector.h"
 #include "IProxy.h"
 #include "IPath.h"

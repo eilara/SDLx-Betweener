@@ -10,7 +10,7 @@ using namespace std;
 typedef LinearTweenForm<int  ,1,false> LinearIntForm;
 typedef LinearTweenForm<int  ,1,true>  LinearIntFormFloored;
 typedef LinearTweenForm<float,1,false> LinearFloatForm;
-typedef LinearTweenForm<int ,4,false> LinearRgbaForm;
+typedef LinearTweenForm<int  ,4,false> LinearRgbaForm;
 
 Timeline::Timeline() : tickers() {
 }
@@ -31,6 +31,8 @@ void Timeline::unregister_ticker(ITicker *ticker) {
     tickers.erase(ticker);
 }
 
+// this loop implies tween ticks and tween complete handlers should not
+// unregister or destroy other tweens in the same timeline
 void Timeline::tick(Uint32 now) {
     for (set<ITicker*>::iterator it = tickers.begin(); it != tickers.end();) {
         set<ITicker*>::iterator it2 = it;

@@ -71,18 +71,20 @@ void Tween::set_duration(Uint32 new_duration, Uint32 now) {
 }
 
 void Tween::on_tick(Uint32 now) {
-    bool is_complete = 0;
-    Uint32 elapsed = now - cycle_start_time - total_pause_time;
+    bool   is_complete = 0;
+    Uint32 elapsed     = now - cycle_start_time - total_pause_time;
 
     if (elapsed >= duration) {
         is_complete = 1;
-        elapsed = duration;
+        elapsed     = duration;
     }
     float t_normal = (float) elapsed / duration;
     float eased    = ease_func(t_normal);
+
     if (control->is_reversed()) eased = 1 - eased;
     form->tick(eased);
 
+    // check is_active because tween tick could have stopped the tween
     if (!is_active() || !is_complete) { return; }
 
     control->cycle_complete();
@@ -94,7 +96,7 @@ void Tween::on_tick(Uint32 now) {
     }
 
     // begin repeat cycle
-    cycle_start_time += elapsed;
-    last_cycle_complete_time = 0;
+    cycle_start_time         += elapsed;
+    last_cycle_complete_time  = 0;
 }
 

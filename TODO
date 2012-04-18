@@ -19,13 +19,11 @@ TODO
     - one time tick tween, like timer
     - delay tween, there just for delaying until completion event
     - add spawner non-linear ease
-    - smooth seek with change targets
+    - seeker direct target should be weak ref and add target dead event
 * Proxy decorators    
     - SDLx::Rect proxy for 2D paths
     - face angle for path tweens
     - add/remove to/from grid cell on move
-    - event on weak proxy target missing so homing missile can
-      change target or explode
 * Timeline
     - elastic speed of time, FFW/REW, seek progress
 * API

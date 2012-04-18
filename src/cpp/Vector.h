@@ -2,6 +2,10 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
+// namespace collisions
+#undef write
+#undef read
+
 #include <math.h>
 #include <stdlib.h>
 #include <algorithm>

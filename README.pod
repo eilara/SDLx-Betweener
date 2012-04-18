@@ -822,11 +822,9 @@ Big thanks to:
   Sam Hocevar, from 14 rue de Plaisance, 75014 Paris, France
   https://raw.github.com/warrenm
 
-For his excellent AHEasing lib which C<SDLx-Tween> uses for easing
-functions. The license is in the C<tweencee/> dir. The library is at
-L<https://github.com/warrenm/AHEasing>.
-
-Check that page for some great info about easing functions.
+For his excellent AHEasing lib which C<SDLx-Betweener> uses for easing
+functions: L<https://github.com/warrenm/AHEasing>. Check that page for some
+great info about easing functions.
 
 Huge thanks to Zohar Kelrich <lumimies@gmail.com> for patient listening and
 advice.

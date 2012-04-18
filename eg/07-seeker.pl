@@ -46,7 +46,7 @@ $app->add_show_handler(sub {
 
 $app->add_event_handler(sub {
     my ($e, $app) = @_;
-       if($e->type == SDL_QUIT) { $app->stop }
+       if ($e->type == SDL_QUIT       ) { $app->stop }
     elsif ($e->type == SDL_MOUSEMOTION) {
         $player->[0] = $e->motion_x;
         $player->[1] = $e->motion_y;
