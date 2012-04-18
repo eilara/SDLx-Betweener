@@ -5,7 +5,6 @@
 #include "EXTERN.h"
 #include "perl.h"
 #include "XSUB.h"
-#include <iostream>
 #include "Types.h"
 #include "ICompleter.h"
 
