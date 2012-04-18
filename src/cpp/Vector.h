@@ -5,6 +5,8 @@
 // namespace collisions
 #undef write
 #undef read
+#undef pause
+#undef setbuf
 
 #include <math.h>
 #include <stdlib.h>
