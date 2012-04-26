@@ -26,6 +26,7 @@ TODO
     - add/remove to/from grid cell on move
 * Timeline
     - elastic speed of time, FFW/REW, seek progress
+    - add pause/resume
 * API
     - before/after tween delay
     - allow speed instead of duration

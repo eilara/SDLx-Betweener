@@ -71,6 +71,9 @@ void Tween::set_duration(Uint32 new_duration, Uint32 now) {
 }
 
 void Tween::on_tick(Uint32 now) {
+    // tick on some other tween in timeline could have stopped me
+    if (!is_active()) { return; }
+
     bool   is_complete = 0;
     Uint32 elapsed     = now - cycle_start_time - total_pause_time;
 
