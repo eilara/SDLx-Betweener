@@ -1028,6 +1028,10 @@ how to chain tweens
 
 demo of many seekers following cursor
 
+=item C<08-sprite.pl>
+
+a simple example of how to write a sprite GOB which animates using a tween
+
 =back
 
 

@@ -29,7 +29,7 @@ bool CycleControl::is_reversed() {
 }
 
 bool CycleControl::is_bouncing() {
-   return bounce; 
+    return bounce;
 }
 
 
