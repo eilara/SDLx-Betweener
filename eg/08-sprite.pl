@@ -40,7 +40,7 @@ sub _build_sequences {
 sub _build_walk_tween {
     my $self = shift;
     return $self->tweener->tween_int(
-        t       => 500,
+        t       => 2000,
         range   => [0, $self->frame_count],
         on      => {set_frame => $self},
         forever => 1,

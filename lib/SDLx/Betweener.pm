@@ -53,12 +53,16 @@ sub new {
     my ($class, %args) = @_;
     my $timeline       = SDLx::Betweener::Timeline->new;
     my $move_handler   = sub { $timeline->tick };
-    $args{app}->add_move_handler($move_handler) if $args{app};
-    return bless {
+    my $app            = delete $args{app};
+    $app->add_move_handler($move_handler) if $app;
+    my $self = bless {
         timeline     => $timeline,
         move_handler => $move_handler,
+        app          => $app,
         %args,
     }, $class;
+    weaken $self->{app};
+    return $self;
 }
 
 sub DESTROY {

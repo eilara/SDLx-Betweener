@@ -20,7 +20,8 @@ TODO
     - delay tween, there just for delaying until completion event
     - add spawner non-linear ease
     - seeker direct target should be weak ref and add target dead event
-    - some way to get int tween to clamp when floored for sprite tweens
+    - some way to get int tween to clamp when floored for sprite tweens,
+      add clamp arg to int tween and probably round arg
 * Proxy decorators    
     - SDLx::Rect proxy for 2D paths
     - face angle for path tweens
