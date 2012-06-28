@@ -89,7 +89,7 @@ my $sprite   = SDLx::Betweener::eg_09::Sprite->new(
         right => [ map { [$_, 0] } 0..7 ],
         left  => [ map { [$_, 1] } 0..7 ],
     ],
-    # xy => [0,0],
+    xy => [0,0],
 );
 
 my ($tween_1, $tween_3);
