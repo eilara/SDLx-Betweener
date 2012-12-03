@@ -7,7 +7,7 @@ use Scalar::Util qw(weaken);
 use SDL;
 use SDLx::Betweener::Timeline;
 
-our $VERSION = '0.01';
+our $VERSION = '0.0100';
 
 require XSLoader;
 XSLoader::load('SDLx::Betweener', $VERSION);
@@ -293,7 +293,7 @@ SDLx::Betweener - SDL Perl XS Tweening Animation Library
   # simple linear tween
   use SDLx::Betweener;
   
-  # if you are writting a Perl SDL program, you probably have an app object
+  # if you are writing a Perl SDL program, you probably have an app object
   $sdlx_app = SDLx::App->new(...);
 
   # tweener is the tween factory, gets ticks from app
