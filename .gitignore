@@ -1,6 +1,8 @@
 Betweener.bs
 Betweener.c
 Betweener.o
+MANIFEST
+MANIFEST.bak
 MYMETA.json
 MYMETA.yml
 Makefile
@@ -50,3 +52,4 @@ src/cpp_xs/PerlMethodCompleter.o
 src/cpp_xs/PerlMethodProxy.o
 src/cpp_xs/libbetweenerperl.a
 src/pm_to_blib
+SDLx-Betweener-*
