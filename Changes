@@ -1,8 +1,11 @@
 Revision history for Perl extension SDLx-Betweener.
 
-0.0101    Mon  3 Dec 23:03:45 IST 2012
+0.0102  2014-01-31
+    - CPANTS: LICENSE file, LICENSE field, and MIN_PERL_VERSION .
+
+0.0101  2012-12-03
     - add the typemap to the distribution (it was missing, but required).
 
-0.0100    Tue Feb  7 20:16:58 2012
+0.0100  2012-02-07
 	- original version
 

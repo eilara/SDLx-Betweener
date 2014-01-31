@@ -28,6 +28,14 @@ WriteMakefile(
     INC               => Alien::SDL->config('cflags'). ' -I. -Isrc/cpp -Isrc/cpp_xs',
     OBJECT            => '$(O_FILES)',
     'MYEXTLIB'        => $lib_ar,
+    (($ExtUtils::MakeMaker::VERSION >= 6.48)
+        ? (MIN_PERL_VERSION => '5.012',)
+        : ()
+    ),
+    (($ExtUtils::MakeMaker::VERSION >= 6.48)
+        ? (LICENSE => 'perl',)
+        : ()
+    ),
 #    clean   => {'FILES' => ''},
 );
 
