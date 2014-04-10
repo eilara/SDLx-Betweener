@@ -3,6 +3,22 @@ use strict;
 use ExtUtils::MakeMaker;
 use Alien::SDL;
 
+use File::Spec;
+
+sub _slurp
+{
+    my $filename = shift;
+
+    open my $in, '<', $filename
+        or die "Cannot open '$filename' for slurping - $!";
+
+    local $/;
+    my $contents = <$in>;
+
+    close($in);
+
+    return $contents;
+}
 
 my $lib      = 'betweener';
 my $test     = 'betweener_unit_tests';
@@ -34,6 +50,30 @@ WriteMakefile(
     ),
     (($ExtUtils::MakeMaker::VERSION >= 6.48)
         ? (LICENSE => 'perl',)
+        : ()
+    ),
+    (($ExtUtils::MakeMaker::VERSION >= 6.48)
+        ? (
+            META_MERGE =>
+            {
+                provides => {
+                    'SDLx::Betweener' => {
+                        file => "lib/SDLx/Betweener.pm",
+                        version => sub {
+                            my $contents = _slurp(File::Spec->catfile(File::Spec->curdir, qw( lib SDLx Betweener.pm)));
+                            if (my ($version) = ($contents =~ /^our \$VERSION = '([^']*)'/ms))
+                            {
+                                return $version;
+                            }
+                            else
+                            {
+                                die "Cannot find version in file.";
+                            }
+                        }->(),
+                    },
+                },
+            },
+        )
         : ()
     ),
 #    clean   => {'FILES' => ''},
