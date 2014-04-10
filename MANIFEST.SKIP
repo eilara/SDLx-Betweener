@@ -24,7 +24,9 @@ _uu$
 ^dist/
 ^.cvs
 ^SDLx-Betweener
-^MYMETA.yml$
+^MYMETA\.yml$
 ^_build/
 ^Build$
 ^MYMETA\.json$
+/MYMETA\.yml$
+/MYMETA\.json$
