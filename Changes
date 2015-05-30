@@ -1,5 +1,8 @@
 Revision history for Perl extension SDLx-Betweener.
 
+0.0105  2015-05-30
+    - Fix the resources in the previous version.
+
 0.0104  2015-05-30
     - Add "resources" to the META.yml.
 

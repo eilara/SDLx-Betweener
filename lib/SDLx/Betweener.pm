@@ -7,7 +7,7 @@ use Scalar::Util qw(weaken);
 use SDL;
 use SDLx::Betweener::Timeline;
 
-our $VERSION = '0.0104';
+our $VERSION = '0.0105';
 
 require XSLoader;
 XSLoader::load('SDLx::Betweener', $VERSION);

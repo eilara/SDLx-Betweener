@@ -56,6 +56,7 @@ WriteMakefile(
         ? (
             META_MERGE =>
             {
+                "meta-spec" => { version => 2 },
                 provides => {
                     'SDLx::Betweener' => {
                         file => "lib/SDLx/Betweener.pm",
