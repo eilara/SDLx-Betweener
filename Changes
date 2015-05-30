@@ -1,5 +1,8 @@
 Revision history for Perl extension SDLx-Betweener.
 
+0.0104  2015-05-30
+    - Add "resources" to the META.yml.
+
 0.0103  2014-04-10
     - CPANTS : remove more MYMETA.yml and MYMETA.json files.
 

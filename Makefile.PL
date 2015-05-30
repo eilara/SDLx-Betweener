@@ -72,6 +72,15 @@ WriteMakefile(
                         }->(),
                     },
                 },
+                resources => {
+                    repository => {
+                        type => 'git',
+                        url => 'git://github.com/shlomif/SDLx-Betweener.git',
+                        web => 'https://github.com/shlomif/SDLx-Betweener',
+                    },
+
+                },
+ ,
             },
         )
         : ()
