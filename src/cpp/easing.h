@@ -60,7 +60,7 @@ AHFloat ElasticEaseIn(AHFloat p);
 AHFloat ElasticEaseOut(AHFloat p);
 AHFloat ElasticEaseInOut(AHFloat p);
 
-// Overshooting cubic easing; 
+// Overshooting cubic easing;
 AHFloat BackEaseIn(AHFloat p);
 AHFloat BackEaseOut(AHFloat p);
 AHFloat BackEaseInOut(AHFloat p);

@@ -29,7 +29,7 @@ my $src_rect = SDLx::Rect->new(0, 0, 32, 32);
 my $spawner  = $tweener->tween_spawn
     (t=>$DURATION, waves => $ONION_COUNT, on=>\&spawn_creep);
 
-# list of onion pairs, each pair a rect and its onion tween    
+# list of onion pairs, each pair a rect and its onion tween
 my @onions = map {
     my $rect  = SDLx::Rect->new(-32,-32, 32, 32);
     my $tween = $tweener->tween_path(

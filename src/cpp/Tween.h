@@ -35,7 +35,7 @@ class Tween : public Ticker {
         Uint32        pause_start_time;
         Uint32        total_pause_time;
         float         (*ease_func) (float);
- 
+
 };
 
 #endif

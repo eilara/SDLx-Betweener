@@ -59,8 +59,8 @@ Tween *Timeline::build_int_tween(IProxy<int,1> *proxy, ICompleter *completer,
 Tween *Timeline::build_float_tween(IProxy<float,1> *proxy, ICompleter *completer,
                                    int duration, float from, float to, int ease_type,
                                    CycleControl *control) {
-    Vector1f from_v = { {from} };                 
-    Vector1f to_v   = { {to} };                 
+    Vector1f from_v = { {from} };
+    Vector1f to_v   = { {to} };
     LinearFloatForm *form = new LinearFloatForm(proxy, from_v, to_v);
     return new Tween(this, completer, form, duration, ease_type, control);
 }

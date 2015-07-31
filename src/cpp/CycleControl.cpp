@@ -25,7 +25,7 @@ bool CycleControl::is_animation_complete() {
 }
 
 bool CycleControl::is_reversed() {
-   return _is_reversed; 
+   return _is_reversed;
 }
 
 bool CycleControl::is_bouncing() {

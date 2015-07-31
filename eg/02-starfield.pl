@@ -38,7 +38,7 @@ my $i; while($i++ < $STAR_COUNT) {
 
     if ($first_star) { $prev_star->[2] = $star }
     else             { $first_star = $star }
-    
+
     $prev_star = $star;
     push @tweens, $tween;
 }

@@ -3,9 +3,9 @@
 #include "PolylinePath.h"
 
 PolylinePath::PolylinePath(std::vector<Vector2i> points) {
-    segments.reserve(points.size()); 
+    segments.reserve(points.size());
     float total_len = 0;
-    std::vector<Vector2i>::iterator pit = points.begin(); 
+    std::vector<Vector2i>::iterator pit = points.begin();
     Vector2i p0 = *pit;
     pit++;
     for (;pit != points.end(); pit++) {

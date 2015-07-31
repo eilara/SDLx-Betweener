@@ -40,7 +40,7 @@ class Timeline : public IClock {
 
     private:
         std::set<ITicker*> tickers;
-       
+
 
 };
 

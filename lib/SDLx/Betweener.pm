@@ -102,7 +102,7 @@ sub tween_spawn {
         if $ease;
 
     # inner callback calls the user given proxy
-    # inner callback used by outer proxy which, which is a CALLBACK_PROXY 
+    # inner callback used by outer proxy which, which is a CALLBACK_PROXY
     my $inner = $proxy == CALLBACK_PROXY? $on:
                 $proxy == METHOD_PROXY  ? do {
                     my $method = [keys   %$on]->[0];
@@ -110,7 +110,7 @@ sub tween_spawn {
                     weaken($obj);
                     sub { $obj->$method(@_) };
                 }: die 'Cannot use direct proxy on spawn tween';
-    
+
     # we need the tween object for the "on" arg to the tween, because the
     # spawn tween proxy needs to do calculation using tween properties
     # but to get the tween we need the "on" arg, a required constructor arg
@@ -292,7 +292,7 @@ SDLx::Betweener - SDL Perl XS Tweening Animation Library
 
   # simple linear tween
   use SDLx::Betweener;
-  
+
   # if you are writing a Perl SDL program, you probably have an app object
   $sdlx_app = SDLx::App->new(...);
 
@@ -307,7 +307,7 @@ SDLx::Betweener - SDL Perl XS Tweening Animation Library
   # tween will not do anything until started
   $tween->start;
 
-  # xy will now be tweened between [0, 0] and [640, 480] for 1 second 
+  # xy will now be tweened between [0, 0] and [640, 480] for 1 second
   # and then the tween will stop
   $sdlx_app->run;
 
@@ -320,12 +320,12 @@ SDLx::Betweener - SDL Perl XS Tweening Animation Library
 
   # tween methods
   $tween->set_duration($new_duration); # hasten/slow a tween
-  $tween->start($optional_ideal_cycle_start_time);  
+  $tween->start($optional_ideal_cycle_start_time);
   $tween->stop;
   $tween->pause($optional_ideal_pause_time);
   $tween->resume($optional_ideal_resume_time);
 
-  # tween types, each with its own constructor args, but all 
+  # tween types, each with its own constructor args, but all
   # sharing a common set, see below for more info
   $tween = $tweener->tween_int(...);
   $tween = $tweener->tween_float(...);
@@ -336,7 +336,7 @@ SDLx::Betweener - SDL Perl XS Tweening Animation Library
 
   # seek behavior makes one position follow another at given speed
   $tail = $timeline->tail(
-      speed => 50/1_000,  # advance a distance of 50 pixels a sec 
+      speed => 50/1_000,  # advance a distance of 50 pixels a sec
       on    => $xy,       # array ref of xy to update
       to    => $target,   # array ref of xy to follow
       done  => \&collide, # completer to call on collision
@@ -520,7 +520,7 @@ to tween towards a dynamic, rather than static, target.
       on    => $circle->{xy},
       to    => $cursor->{xy},
       speed => 100 / 1_000,
-  );      
+  );
 
 =back
 
@@ -569,7 +569,7 @@ Cycle control methods:
 A C<start()/stop()> sequence will reset the tween. A C<pause()/resume()>
 sequence will resume it from its last position before the C<pause()>. These all
 take an optional ideal event time in SDL msec since game start, see
-L</ACCURACY> for more info. 
+L</ACCURACY> for more info.
 
 =item is_active
 
@@ -784,7 +784,7 @@ last following a linear path between them.
 =head2 MEMORY MANAGEMENT
 
 There are two issues with tween memory management: how do you keep a ref to the
-tween in game objects, and how does the tween keep ref to the game elements it 
+tween in game objects, and how does the tween keep ref to the game elements it
 changes.
 
 The C<SDLx::Betweener> only keeps weak refs to active tweens. This means you
@@ -840,7 +840,7 @@ control methods:
   $t2->start($start_time);
 
 
-When chaining tweens, the 2nd tween ideal start time should be set as the 1st  
+When chaining tweens, the 2nd tween ideal start time should be set as the 1st
 tween start time + the tween duration. Tween completion handlers (the C<done>
 arg) are given the tween ideal stop time so you don't need to compute this:
 
@@ -873,7 +873,7 @@ flying towards enemy - need to update its position until it hits enemy
 
 exploding - another sprite animation
 
-=back    
+=back
 
 The move handler for this game object (GOB) is hard to write, because it needs to:
 
@@ -915,7 +915,7 @@ C<SDLx::Betweener> solves the missile requirements. Instead of writing a move
 handler, declare tweens on your GOBs. C<SDLx::Betweener> will take care of the move
 handler for you.
 
-Instead of writing a move handler which updates the position of $my_gob 
+Instead of writing a move handler which updates the position of $my_gob
 from its current position to x=100 in 1 second, you can go:
 
     $tween = $timline->tween(on => [x => $my_gob], to =>100, t => 1_000);
@@ -1077,7 +1077,7 @@ to them.
 The Tween tick method normalizes the time given using now/tween_duration,
 so that it is between 0 and 1.
 
-Then the time is passed through the easing function, which maps it to some 
+Then the time is passed through the easing function, which maps it to some
 eased time value, useful for non-linear speed animations.
 
 The tween then calls tick(Uint32 now) on its ITweenForm. The tween form

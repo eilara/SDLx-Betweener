@@ -31,7 +31,7 @@ class Seeker : public Ticker {
         Vector2f        orig_xy;
         Uint32          last_tick_time;
         Uint32          pause_start_time;
- 
+
 };
 
 #endif

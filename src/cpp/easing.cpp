@@ -91,7 +91,7 @@ AHFloat QuarticEaseOut(AHFloat p)
 // Modeled after the piecewise quartic
 // y = (1/2)((2x)^4)        ; [0, 0.5)
 // y = -(1/2)((2x-2)^4 - 2) ; [0.5, 1]
-AHFloat QuarticEaseInOut(AHFloat p) 
+AHFloat QuarticEaseInOut(AHFloat p)
 {
 	if(p < 0.5)
 	{
@@ -105,13 +105,13 @@ AHFloat QuarticEaseInOut(AHFloat p)
 }
 
 // Modeled after the quintic y = x^5
-AHFloat QuinticEaseIn(AHFloat p) 
+AHFloat QuinticEaseIn(AHFloat p)
 {
 	return p * p * p * p * p;
 }
 
 // Modeled after the quintic y = (x - 1)^5 + 1
-AHFloat QuinticEaseOut(AHFloat p) 
+AHFloat QuinticEaseOut(AHFloat p)
 {
 	AHFloat f = (p - 1);
 	return f * f * f * f * f + 1;
@@ -120,7 +120,7 @@ AHFloat QuinticEaseOut(AHFloat p)
 // Modeled after the piecewise quintic
 // y = (1/2)((2x)^5)       ; [0, 0.5)
 // y = (1/2)((2x-2)^5 + 2) ; [0.5, 1]
-AHFloat QuinticEaseInOut(AHFloat p) 
+AHFloat QuinticEaseInOut(AHFloat p)
 {
 	if(p < 0.5)
 	{
@@ -196,7 +196,7 @@ AHFloat ExponentialEaseOut(AHFloat p)
 AHFloat ExponentialEaseInOut(AHFloat p)
 {
 	if(p == 0.0 || p == 1.0) return p;
-	
+
 	if(p < 0.5)
 	{
 		return 0.5 * pow(2, (20 * p) - 10);

@@ -1,4 +1,4 @@
- 
+
 TODO
 
 * Build
@@ -6,7 +6,7 @@ TODO
 * Paths
     - Bezier paths
     - import bezier paths from Inkscape
-    - import polyline path waypoints from Tiled map editor 
+    - import polyline path waypoints from Tiled map editor
 * Easing
     - stepped retro tween easing
 * Tween Types
@@ -22,7 +22,7 @@ TODO
     - seeker direct target should be weak ref and add target dead event
     - some way to get int tween to clamp when floored for sprite tweens,
       add clamp arg to int tween and probably round arg
-* Proxy decorators    
+* Proxy decorators
     - SDLx::Rect proxy for 2D paths
     - face angle for path tweens
     - add/remove to/from grid cell on move
@@ -48,7 +48,7 @@ TODO
       (e.g. by Data::Dumpering it) you will never see
       tween updates. Maybe Devel::Peek it and warn?
     - solve tween tick destroying tweens issue, multiple tweeners
-      is no solution    
+      is no solution
 * Refactor
     - template specialization on proxies not method overloading
     - specialize templates for FLOORED in linear tween form

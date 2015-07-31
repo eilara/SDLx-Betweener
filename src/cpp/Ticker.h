@@ -30,7 +30,7 @@ class Ticker : public ITicker {
         bool        _is_paused;
         void        register_ticker();
         void        unregister_ticker();
-       
+
 };
 
 #endif

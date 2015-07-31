@@ -49,7 +49,7 @@ my $w = 800;
 my $h = 600;
 
 my @circle_defs = (
-    ["tween=fade from=0xFF000000 to=0xFF", 
+    ["tween=fade from=0xFF000000 to=0xFF",
         fade => [200, 150], 0xFF0000FF, 0x00,
     ],
     ["tween=rgba from=0x00FF0044 to=0x0000FFCC",
